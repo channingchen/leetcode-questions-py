@@ -1,0 +1,10 @@
+Class Name:
+$!velocityTool.camelCaseName(${question.titleSlug})_${question.frontendQuestionId}
+
+Code Template:
+${question.content}
+
+${question.code}
+
+if __name__ == '__main__':
+    Solution().
