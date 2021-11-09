@@ -40,17 +40,34 @@ from typing import List
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def combine(self, n: int, k: int) -> List[List[int]]:
+        ret = self.solve(1, n, k)
+        return ret
 
     def solve(self, s: int, e: int, k: int) -> list[list[int]]:
         ret = []
-        for i in range(s, e):
-            tmp = self.solve(s - 1, e - 1)
+        if k == 1:
+            for i in range(s, e + 1):
+                ret.append([i])
+            return ret
+
+        if e - s + 1 == k:
+            return [list(range(s, e + 1))]
+
+        if e - s + 1 < k:
+            return []
+
+        for i in range(s, e + 1):
+            tmp = self.solve(i + 1, e, k - 1)
+            if len(tmp) == 0:
+                break
             for t in tmp:
                 ret.append([i] + t)
+
+        return ret
 
 
 # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    print(Solution().combine(2, 2))
