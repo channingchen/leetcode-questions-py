@@ -50,33 +50,47 @@ class Solution:
         if l2 is None:
             return l1
 
-        ret, one = l1 if l1.val < l2.val else l2
-        anther = l2 if l1.val < l2.val else l2
-        self.link(one, anther)
+        ret = l1 if l1.val < l2.val else l2
+        c1 = ret
+        c2 = l2 if l1 == ret else l1
+        self.link(c1, c2)
 
         return ret
 
-    def link(self, one: ListNode, anther: ListNode):
-        if one is None or anther is None:
+    def link(self, c1: ListNode, c2: ListNode):
+        if c1 is None or c2 is None:
             return
 
-        if one.val < anther.val:
-            if one.next is not None:
-                one = one.next
-                self.link(one, anther)
-            else:
-                one.next = anther
-        else:
-            if anther.next is not None:
-                anther = anther.next
-                self.link(one, anther)
-            else:
-                anther.next = one
+        while c1.next is not None and c1.next.val < c2.val:
+            c1 = c1.next
+
+        temp = c1.next
+        c1.next = c2
+        c2 = temp
+
+        self.link(c1.next, c2)
 
 
 # leetcode submit region end(Prohibit modification and deletion)
 
+def link(l: list) -> ListNode:
+    for i in range(len(l) - 1):
+        l[i].next = l[i + 1]
+    return l[0]
+
+
+def printlist(n: ListNode):
+    while n is not None:
+        print(n.val, end=",")
+        n = n.next
+    print("")
+
 
 if __name__ == '__main__':
-    l1 = [ListNode(1)]
-    Solution().mergeTwoLists(l1, l2)
+    l1 = link([ListNode(1), ListNode(2), ListNode(4)])
+    l2 = link([ListNode(1), ListNode(3), ListNode(4)])
+
+    printlist(l1)
+    printlist(l2)
+    ret = Solution().mergeTwoLists(l1, l2)
+    printlist(ret)
