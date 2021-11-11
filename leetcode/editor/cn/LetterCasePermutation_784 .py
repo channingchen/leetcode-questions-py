@@ -22,8 +22,7 @@
 #  S 仅由数字和字母组成。 
 #  
 #  Related Topics 位运算 字符串 回溯 👍 318 👎 0
-
-
+from builtins import str
 from typing import List
 
 
@@ -31,14 +30,27 @@ from typing import List
 
 class Solution:
     def letterCasePermutation(self, s: str) -> List[str]:
-        # n = 0
-        # for i in s:
-        #     n = n << 1 + (0 if i >= 0 and i <= '9')
-        return None
+        ret = []
+        p = [-1] * len(s)
+        c = 0
+        for i in range(len(s)):
+            if ord(s[i]) >= 65:
+                p[c] = i
+                c += 1
+
+        for i in range(1 << c):
+            n = list(s)
+            for j in range(c, 0, -1):
+                if (i >> j) & 1 == 1:
+                    n[p[j]] = n[p[j]].swapcase()
+            ret.append(''.join(n))
+        return ret
 
 
 # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    str = "a1b2"
+    ret = Solution().letterCasePermutation(str)
+    print(ret)
