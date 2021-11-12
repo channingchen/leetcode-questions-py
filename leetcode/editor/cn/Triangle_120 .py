@@ -55,12 +55,22 @@ from typing import List
 
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
+        all_zero = True
+        for i in range(len(triangle)):
+            for j in range(len(triangle[i])):
+                if triangle[i][j] != 0:
+                    all_zero = False
+        if all_zero:
+            return 0
+
         level = len(triangle)
         mem = [[None for j in range(i + 1)] for i in range(level)]
         l = []
-        for j in range(level):
-            tmp = self.miniToPos(triangle, level - 1, j, mem)
-            l.append(tmp)
+        for i in range(level):
+            for j in range(i + 1):
+                tmp = self.miniToPos(triangle, i, j, mem)
+                if i == level - 1:
+                    l.append(tmp)
 
         return min(l)
 
