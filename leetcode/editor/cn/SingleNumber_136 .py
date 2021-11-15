@@ -17,12 +17,20 @@
 #  Related Topics 位运算 数组 
 #  👍 2102 👎 0
 
+from typing import List
+
 
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
+        ret = nums[0]
+        for i in range(1, len(nums)):
+            ret = ret ^ nums[i]
+        return ret
+
+
 # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    pass

@@ -46,14 +46,15 @@
 class Solution:
     def reverseBits(self, n: int) -> int:
         ret = 0
-        for i in range(31, -1, -1):
-            bit = n & (1 << i)
-            ret += bit
+        for i in range(32):
             ret = ret << 1
+            bit = n & 1
+            ret += bit
+            n = n >> 1
         return ret
 
     # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    pass
