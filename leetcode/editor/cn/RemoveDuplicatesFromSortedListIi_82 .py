@@ -37,14 +37,14 @@ class ListNode:
         self.next = next
 
 
-# leetcode submit region begin(Prohibit modification and deletion)
-class Solution:
+class Solution1:
     def deleteDuplicates(self, head: ListNode) -> ListNode:
         if head is None:
             return head
 
         # 处理head
         cur = head
+        cur = cur.next
         while cur:
             repeat = False
             while cur and cur.val == head.val:
@@ -52,26 +52,53 @@ class Solution:
                 cur = cur.next
             if repeat:
                 head = cur
-            cur = cur.next
+            else:
+                break
+            cur = cur.next if cur else cur
 
+        if head is None:
+            return head
+
+        # 处理剩余重复部分
         last = head
+        cur = head.next
         while last and cur:
+            v = cur.val
             repeat = False
-            while cur and cur.val == last.val:
+            while cur.next and cur.next.val == v:
                 repeat = True
                 cur = cur.next
-            if repeat:
-                last = cur
-            else:
-                cur = cur.next if cur else cur
+                last.next = cur.next
+            if not repeat:
+                last = last.next
+            cur = last.next if last.next else None
 
         return head
 
-    # leetcode submit region end(Prohibit modification and deletion)
+
+# leetcode submit region begin(Prohibit modification and deletion)
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        if head is None:
+            return head
+
+        dummy = ListNode(0, head)
+        cur = dummy
+        while cur.next and cur.next.next:
+            if cur.next.val == cur.next.next.val:
+                v = cur.next.val
+                while cur.next and cur.next.val == v:
+                    cur.next = cur.next.next
+            else:
+                cur = cur.next
+        return dummy.next
+
+
+# leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    arr = [1, 1, 2, 3, 3, 4, 4, 5]
+    arr = [1, 1, 2, 2, 3, 4, 5, 6, 6, 7]
     l = list(map(lambda x: ListNode(x), arr))
     for i in range(1, len(arr)):
         l[i - 1].next = l[i]
