@@ -54,11 +54,37 @@
 #  👍 212 👎 0
 
 
+from typing import List
+
+
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:
+        ret = []
+        fi = 0
+        si = 0
+        while fi < len(firstList) and si < len(secondList):
+            fs = firstList[fi][0]
+            fe = firstList[fi][1]
+            ss = secondList[si][0]
+            se = secondList[si][1]
+
+            if fe < ss:
+                fi += 1
+                continue
+            elif fs > se:
+                si += 1
+                continue
+            else:
+                intsec = [max(fs, ss), min(fe, se)]
+                ret.append(intsec)
+                fi = fi + 1 if fe <= se else fi
+                si = si + 1 if se <= fe else si
+        return ret
+
+
 # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    pass
