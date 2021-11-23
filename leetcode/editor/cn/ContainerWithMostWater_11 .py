@@ -48,11 +48,25 @@
 #  👍 2958 👎 0
 
 
+from typing import List
+
+
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def maxArea(self, height: List[int]) -> int:
-# leetcode submit region end(Prohibit modification and deletion)
+        s = 0
+        t = len(height) - 1
+        m = 0
+        while s < t:
+            a = height[s]
+            b = height[t]
+            m = max(m, (t - s) * min(a, b))
+            s = s + 1 if a < b else s
+            t = t - 1 if a >= b else t
+        return m
+
+    # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    print(Solution().maxArea([1, 8, 6, 2, 5, 4, 8, 3, 7]))
