@@ -34,30 +34,46 @@
 
 from typing import List
 
+import numpy as np
 
-# leetcode submit region begin(Prohibit modification and deletion)
-class Solution:
+
+class UglySolution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
         mem_dict = {}
         solution = 0
+        all_one = True
         for n in range(len(nums)):
             if nums[n] < k:
                 solution += 1
-            mem_dict[str(n) + "_1"] = nums[n]
+            if nums[n] != 1:
+                all_one = False
+            mem_dict[str(n) + "_0"] = nums[n]
+
+        if all_one and k > 1:
+            return (1 + len(nums)) * len(nums) >> 1
 
         for w in range(2, len(nums) + 1):
             i = 0
+            has_one = False
             while i <= len(nums) - w:
-                key=str(i) + "_" + str(w - 1)
-                if mem_dict.has_key(key):
-                if r and r < k:
-                    r *= nums[i + w - 1]
+                key = str(i) + "_" + str(w - 2)
+                if key in mem_dict:
+                    mem = mem_dict[key]
+                    r = mem * nums[i + w - 1]
                     if r < k:
+                        has_one = True
                         # print(nums[i:i + w])
                         solution += 1
-                        mem_dict[str(i) + "_" + str(w)] = r
+                        mem_dict[str(i) + "_" + str(w - 1)] = r
                 i += 1
+            if not has_one:
+                break
         return solution
+
+
+# leetcode submit region begin(Prohibit modification and deletion)
+class UglySolution:
+    def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
 
 
 # leetcode submit region end(Prohibit modification and deletion)
