@@ -31,7 +31,6 @@
 #  Related Topics 数组 滑动窗口 
 #  👍 312 👎 0
 
-
 from typing import List
 
 import numpy as np
@@ -72,8 +71,21 @@ class UglySolution:
 
 
 # leetcode submit region begin(Prohibit modification and deletion)
-class UglySolution:
+class Solution:
     def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+        if k < 1:
+            return 0
+        r = 1
+        left = 0
+        solution = 0
+        for right, val in enumerate(nums):
+            r *= val
+            while r >= k and left <= right:
+                r /= nums[left]
+                left += 1
+            solution += right - left + 1
+
+        return solution
 
 
 # leetcode submit region end(Prohibit modification and deletion)

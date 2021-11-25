@@ -31,7 +31,7 @@
 # 
 #  提示： 
 # 
-#  
+#
 #  1 <= target <= 109 
 #  1 <= nums.length <= 105 
 #  1 <= nums[i] <= 105 
@@ -48,11 +48,35 @@
 #  👍 824 👎 0
 
 
+from typing import List
+
+
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+        left = 0
+        right = 1
+        s = nums[0]
+        min_length = 0
+        while left <= right:
+            while s < target and right < len(nums):
+                s += nums[right]
+                right += 1
+
+            if s >= target:
+                # print(nums[left:right])
+                min_length = right - left if min_length == 0 else min(right - left, min_length)
+                if min_length == 1:
+                    break
+                s -= nums[left]
+                left += 1
+            else:
+                break
+        return min_length
+
+
 # leetcode submit region end(Prohibit modification and deletion)
 
 
 if __name__ == '__main__':
-    Solution().
+    print(Solution().minSubArrayLen(4, [1,4,4]))
