@@ -49,26 +49,49 @@ from typing import List
 # leetcode submit region begin(Prohibit modification and deletion)
 class Solution:
     def numIslands(self, grid: List[List[str]]) -> int:
-        x = -1, y = -1
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[x][y] == 1:
-                    x = i, y = j
+        x = 0
+        y = 0
+        h = len(grid)
+        w = len(grid[0])
+        for i in range(h):
+            for j in range(w):
+                if grid[x][y] == '1':
+                    x = i
+                    y = j
                     break
 
-        if x == -1 and y == -1:
+        if x == h - 1 and y == w - 1 and grid[x][y] == "0":
             return 0
 
-        while
+        cnt = 0
+        while x < h and y < w:
+            marked = dict()
+            self.bfsAndDeleteAnIsland((x, y), grid, marked)
+            for p in marked.keys():
+                grid[p[0]][p[1]] = "0"
+            cnt += 1
+
+            i = x
+            j = y
+            for i in range(x, h):
+                for j in range(w):
+                    if grid[i][j] == "1":
+                        break
+            if i == h - 1 and y == w - 1 and grid[x][y] == "0":
+                return cnt
+            else:
+                x = i
+                y = j
 
     def bfsAndDeleteAnIsland(self, point: tuple, grid: List[List[str]], marked: dict) -> dict:
         marked[tuple] = 1
         next = []
-        x = tuple[0], y = tuple[1]
-        if self.isVerginLand(x - 1, y): next.append((x - 1, y))
-        if self.isVerginLand(x + 1, y): next.append((x + 1, y))
-        if self.isVerginLand(x, y - 1): next.append((x, y - 1))
-        if self.isVerginLand(x, y + 1): next.append((x, y + 1))
+        x = point[0]
+        y = point[1]
+        if self.isVerginLand(x - 1, y, grid, marked): next.append((x - 1, y))
+        if self.isVerginLand(x + 1, y, grid, marked): next.append((x + 1, y))
+        if self.isVerginLand(x, y - 1, grid, marked): next.append((x, y - 1))
+        if self.isVerginLand(x, y + 1, grid, marked): next.append((x, y + 1))
 
         if len(next) > 0:
             map(lambda p: self.bfsAndDeleteAnIsland(p, grid), next)
@@ -90,12 +113,10 @@ class Solution:
 
 
 if __name__ == '__main__':
-    # Solution().
-    a = dict()
-    a[(1, 1)] = 1
-    a[(1, 2)] = 2
-    a[(2, 1)] = 3
-    print((1, 2) in a)
-    print((2, 1) in a)
-    print((3, 1) in a)
-    print((1, 2, 1) in a)
+    grid = [
+        ["1", "1", "1", "1", "0"],
+        ["1", "1", "0", "1", "0"],
+        ["1", "1", "0", "0", "0"],
+        ["0", "0", "0", "0", "0"]
+    ]
+    print(Solution().numIslands(grid))
